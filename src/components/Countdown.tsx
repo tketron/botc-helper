@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Box, Button, Center, Heading } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 
 const TIMES = [
@@ -62,18 +62,35 @@ function Countdown() {
   }
 
   return (
-    <div style={{ textAlign: 'center', margin: 'auto' }}>
-      <div>
-        {TIMES.map((time) => {
-          return (
-            <Button onClick={() => onButtonClick(time.minutes)}>
-              {time.minutes} Minutes
-            </Button>
-          );
-        })}
-      </div>
-      <h2>{timer}</h2>
-    </div>
+    <Box
+      display="grid"
+      gridTemplateRows="repeat(3, 1fr)"
+      gridTemplateColumns="repeat(5, 1fr)"
+      borderColor="red.400"
+      borderWidth="1px"
+    >
+      {TIMES.map((time) => {
+        return (
+          <Box>
+            <Center
+              height="100%"
+              width="100%"
+            >
+              <Button
+                key={time.minutes}
+                onClick={() => onButtonClick(time.minutes)}
+                size="xl"
+              >
+                {time.minutes} {time.minutes === 1 ? 'Minute' : 'Minutes'}
+              </Button>
+            </Center>
+          </Box>
+        );
+      })}
+      <Box gridColumn="1 / 6">
+        <Heading size="6xl">{timer}</Heading>
+      </Box>
+    </Box>
   );
 }
 
