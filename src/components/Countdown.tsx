@@ -19,7 +19,7 @@ function Countdown() {
   const [timer, setTimer] = useState('00:00');
 
   const getTimeRemaining = (e) => {
-    const total = Date.parse(e) - Date.parse(new Date());
+    const total = Date.parse(e) - Date.parse(new Date().toString());
     const seconds = Math.floor((total / 1000) % 60);
     const minutes = Math.floor((total / 1000 / 60) % 60);
     return {
