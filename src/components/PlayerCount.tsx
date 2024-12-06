@@ -1,5 +1,6 @@
 import { Heading } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react/box';
+import PlayerTable from './PlayerTable';
 
 function PlayerCount() {
   return (
@@ -10,6 +11,7 @@ function PlayerCount() {
       width="100%"
     >
       <Heading size="2xl">Character Counts</Heading>
+      <PlayerTable />
     </Box>
   );
 }

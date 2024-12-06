@@ -1,5 +1,8 @@
-import { Box, Button, Center, Heading } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
+import useSound from 'use-sound';
+import bells from '../../public/474266__mkzing__bell-with-crows.mp3';
+import { CloseButton } from './ui/close-button';
 
 const TIMES = [
   { minutes: 1, seconds: 60 },
@@ -17,6 +20,7 @@ const TIMES = [
 function Countdown() {
   const Ref = useRef<number | null>(null);
   const [timer, setTimer] = useState('00:00');
+  const [playSound] = useSound(bells, { volume: 1 });
 
   const getTimeRemaining = (e) => {
     const total = Date.parse(e) - Date.parse(new Date().toString());
@@ -38,6 +42,9 @@ function Countdown() {
           (seconds > 9 ? seconds : '0' + seconds),
       );
     }
+    if (total === 0) {
+      playSound();
+    }
   };
 
   const clearTimer = (date: Date) => {
@@ -48,6 +55,12 @@ function Countdown() {
       updateTimer(date);
     }, 1000);
     Ref.current = id;
+  };
+
+  const resetTimer = () => {
+    if (Ref.current) clearInterval(Ref.current);
+    setTimer('00:00');
+    playSound();
   };
 
   const getDeadTime = (minutes: number) => {
@@ -71,24 +84,30 @@ function Countdown() {
     >
       {TIMES.map((time) => {
         return (
-          <Box>
+          <Box key={time.minutes}>
             <Center
               height="100%"
               width="100%"
             >
               <Button
-                key={time.minutes}
                 onClick={() => onButtonClick(time.minutes)}
                 size="xl"
               >
-                {time.minutes} {time.minutes === 1 ? 'Minute' : 'Minutes'}
+                <Text textDecorationColor="white">
+                  {time.minutes} {time.minutes === 1 ? 'Minute' : 'Minutes'}
+                </Text>
               </Button>
             </Center>
           </Box>
         );
       })}
       <Box gridColumn="1 / 6">
-        <Heading size="6xl">{timer}</Heading>
+        <Heading
+          size="6xl"
+          onClick={resetTimer}
+        >
+          {timer}
+        </Heading>
       </Box>
     </Box>
   );

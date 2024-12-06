@@ -10,7 +10,6 @@ import * as React from 'react';
 export interface ColorModeProviderProps extends ThemeProviderProps {}
 
 export function ColorModeProvider(props: ColorModeProviderProps) {
-  console.log(props);
   return (
     <ThemeProvider
       attribute="class"
